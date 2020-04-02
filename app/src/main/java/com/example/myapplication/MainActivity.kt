@@ -2,10 +2,12 @@ package com.example.myapplication
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.neotreks.accuterra.mobile.sdk.map.AccuTerraMapView
 import com.neotreks.accuterra.mobile.sdk.map.TrackingOption
+import com.neotreks.accuterra.mobile.sdk.trail.model.MapBounds
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -27,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         val listener = object : AccuTerraMapView.IAccuTerraMapViewListener {
             override fun onInitialized(mapboxMap: MapboxMap) {
-                this@MainActivity.mapboxMap = mapboxMap
+                this@MainActivity.onMapViewInitialized(mapboxMap)
             }
 
             override fun onSignificantMapBoundsChange() {
@@ -43,5 +45,18 @@ class MainActivity : AppCompatActivity() {
         accuterraMapView.onCreate(savedInstanceState)
         accuterraMapView.addListener(listener)
         accuterraMapView.initialize(com.mapbox.mapboxsdk.maps.Style.OUTDOORS)
+    }
+
+    private fun onMapViewInitialized(mapboxMap: MapboxMap) {
+        this.mapboxMap = mapboxMap
+
+        lifecycleScope.launchWhenCreated {
+            this@MainActivity.moveMap()
+        }
+    }
+
+    private fun moveMap() {
+        val destinationMapBounds = MapBounds(42.15, -83.5, 42.7, -82.75)
+        accuterraMapView.zoomToBounds(destinationMapBounds)
     }
 }

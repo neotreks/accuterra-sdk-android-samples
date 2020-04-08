@@ -8,6 +8,7 @@ import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.neotreks.accuterra.mobile.sdk.*
 import com.neotreks.accuterra.mobile.sdk.map.AccuTerraMapView
 import com.neotreks.accuterra.mobile.sdk.map.TrackingOption
+import com.neotreks.accuterra.mobile.sdk.map.query.TrailsQueryBuilder
 import com.neotreks.accuterra.mobile.sdk.model.Result
 import com.neotreks.accuterra.mobile.sdk.trail.model.MapBounds
 import kotlinx.android.synthetic.main.activity_main.*
@@ -77,6 +78,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launchWhenCreated {
             moveMap()
             addTrails()
+            addMapListeners()
         }
     }
 
@@ -88,6 +90,26 @@ class MainActivity : AppCompatActivity() {
     private suspend fun addTrails() {
         if (SdkManager.isTrailDbInitialized(this)) {
             accuterraMapView.trailLayersManager.addStandardLayers()
+        }
+    }
+
+    private fun addMapListeners() {
+        accuterraMapView.getMapboxMap().addOnMapClickListener { latLng ->
+            val searchResult = TrailsQueryBuilder(accuterraMapView.trailLayersManager)
+                .setCenter(latLng) // the latitude/longitude clicked on map by user
+                .setTolerance(5.0f) // 5 pixel tolerance on click
+                .includeAllTrailLayers()
+                .create()
+                .execute()
+
+            when (searchResult.trailIds.count()) {
+                1 -> {
+                    accuterraMapView.trailLayersManager.highlightTrail(searchResult.trailIds.single())
+                }
+                else -> { /* TODO: do something else when multiple trails are clicked */ }
+            }
+
+            true // return true to indicate event is handled here
         }
     }
 }

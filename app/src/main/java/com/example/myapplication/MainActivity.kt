@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.maps.MapboxMap
+import com.neotreks.accuterra.mobile.sdk.*
 import com.neotreks.accuterra.mobile.sdk.map.AccuTerraMapView
 import com.neotreks.accuterra.mobile.sdk.map.TrackingOption
+import com.neotreks.accuterra.mobile.sdk.model.Result
 import com.neotreks.accuterra.mobile.sdk.trail.model.MapBounds
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -21,7 +23,29 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        setupMap(savedInstanceState)
+        lifecycleScope.launchWhenCreated {
+            if (initSdk().isSuccess) {
+                setupMap(savedInstanceState)
+            }
+        }
+    }
+
+    private suspend fun initSdk(): Result<Boolean> {
+        val sdkConfig = SdkConfig(
+            clientToken = "*********************************",
+            wsUrl = "*********************************"
+        )
+
+        val optionalListener = object : SdkInitListener {
+            override fun onProgressChanged(progress: Int) {
+                // indicate the progress of the SDK initialization
+            }
+
+            override fun onStateChanged(state: SdkInitState, detail: SdkInitStateDetail?) {
+                // indicate the SDK initialization state has changed
+            }
+        }
+        return SdkManager.initSdk(this, sdkConfig, optionalListener)
     }
 
     private fun setupMap(savedInstanceState: Bundle?) {
@@ -51,12 +75,19 @@ class MainActivity : AppCompatActivity() {
         this.mapboxMap = mapboxMap
 
         lifecycleScope.launchWhenCreated {
-            this@MainActivity.moveMap()
+            moveMap()
+            addTrails()
         }
     }
 
     private fun moveMap() {
-        val destinationMapBounds = MapBounds(42.15, -83.5, 42.7, -82.75)
+        val destinationMapBounds = MapBounds(37.99906, -109.04265, 41.00097, -102.04607)
         accuterraMapView.zoomToBounds(destinationMapBounds)
+    }
+
+    private suspend fun addTrails() {
+        if (SdkManager.isTrailDbInitialized(this)) {
+            accuterraMapView.trailLayersManager.addStandardLayers()
+        }
     }
 }

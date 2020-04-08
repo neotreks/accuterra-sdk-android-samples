@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.mapbox.mapboxsdk.Mapbox
@@ -12,6 +13,7 @@ import com.neotreks.accuterra.mobile.sdk.map.TrackingOption
 import com.neotreks.accuterra.mobile.sdk.map.query.TrailsQueryBuilder
 import com.neotreks.accuterra.mobile.sdk.model.Result
 import com.neotreks.accuterra.mobile.sdk.trail.model.MapBounds
+import com.neotreks.accuterra.mobile.sdk.trail.model.Trail
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -113,7 +115,15 @@ class MainActivity : AppCompatActivity() {
             1 -> {
                 val trailId = searchResult.trailIds.single()
                 accuterraMapView.trailLayersManager.highlightTrail(trailId)
-                displayTrailPOIs(trailId)
+
+                lifecycleScope.launchWhenCreated {
+                    val trail =
+                        ServiceFactory.getTrailService(this@MainActivity).getTrailById(trailId)
+                            ?: throw IllegalArgumentException("trailId $trailId not found in data set")
+
+                    displayTrailPOIs(trail)
+                    showTrailDialog(trail)
+                }
             }
             else -> {
                 /* TODO: do something else when multiple trails are clicked */
@@ -121,12 +131,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun displayTrailPOIs(trailId: Long) {
-        lifecycleScope.launchWhenCreated {
-            val trail = ServiceFactory.getTrailService(this@MainActivity).getTrailById(trailId)
-                ?: throw IllegalArgumentException("trailId $trailId not found in data set")
+    private fun displayTrailPOIs(trail: Trail) {
+        accuterraMapView.trailLayersManager.showTrailPOIs(trail)
+    }
 
-            accuterraMapView.trailLayersManager.showTrailPOIs(trail)
-        }
+    private fun showTrailDialog(trail: Trail) {
+        AlertDialog.Builder(this@MainActivity)
+            .setTitle(trail.info.name)
+            .setMessage(trail.info.highlights)
+            .show()
     }
 }

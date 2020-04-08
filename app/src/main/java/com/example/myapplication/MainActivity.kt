@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.mapbox.mapboxsdk.Mapbox
+import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.neotreks.accuterra.mobile.sdk.*
 import com.neotreks.accuterra.mobile.sdk.map.AccuTerraMapView
@@ -94,22 +95,38 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addMapListeners() {
-        accuterraMapView.getMapboxMap().addOnMapClickListener { latLng ->
-            val searchResult = TrailsQueryBuilder(accuterraMapView.trailLayersManager)
-                .setCenter(latLng) // the latitude/longitude clicked on map by user
-                .setTolerance(5.0f) // 5 pixel tolerance on click
-                .includeAllTrailLayers()
-                .create()
-                .execute()
+        mapboxMap.addOnMapClickListener { latLng ->
+            handleMapClick(latLng)
+            true
+        }
+    }
 
-            when (searchResult.trailIds.count()) {
-                1 -> {
-                    accuterraMapView.trailLayersManager.highlightTrail(searchResult.trailIds.single())
-                }
-                else -> { /* TODO: do something else when multiple trails are clicked */ }
+    private fun handleMapClick(latLng: LatLng) {
+        val searchResult = TrailsQueryBuilder(accuterraMapView.trailLayersManager)
+            .setCenter(latLng) // the latitude/longitude clicked on map by user
+            .setTolerance(5.0f) // 5 pixel tolerance on click
+            .includeAllTrailLayers()
+            .create()
+            .execute()
+
+        when (searchResult.trailIds.count()) {
+            1 -> {
+                val trailId = searchResult.trailIds.single()
+                accuterraMapView.trailLayersManager.highlightTrail(trailId)
+                displayTrailPOIs(trailId)
             }
+            else -> {
+                /* TODO: do something else when multiple trails are clicked */
+            }
+        }
+    }
 
-            true // return true to indicate event is handled here
+    private fun displayTrailPOIs(trailId: Long) {
+        lifecycleScope.launchWhenCreated {
+            val trail = ServiceFactory.getTrailService(this@MainActivity).getTrailById(trailId)
+                ?: throw IllegalArgumentException("trailId $trailId not found in data set")
+
+            accuterraMapView.trailLayersManager.showTrailPOIs(trail)
         }
     }
 }

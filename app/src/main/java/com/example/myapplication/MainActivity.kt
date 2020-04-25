@@ -9,10 +9,13 @@ import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.neotreks.accuterra.mobile.sdk.*
 import com.neotreks.accuterra.mobile.sdk.map.AccuTerraMapView
+import com.neotreks.accuterra.mobile.sdk.map.AccuTerraStyle
 import com.neotreks.accuterra.mobile.sdk.map.TrackingOption
+import com.neotreks.accuterra.mobile.sdk.map.query.TrailPoisQueryBuilder
 import com.neotreks.accuterra.mobile.sdk.map.query.TrailsQueryBuilder
 import com.neotreks.accuterra.mobile.sdk.model.Result
 import com.neotreks.accuterra.mobile.sdk.trail.model.MapBounds
+import com.neotreks.accuterra.mobile.sdk.trail.model.MapPoint
 import com.neotreks.accuterra.mobile.sdk.trail.model.Trail
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -72,7 +75,7 @@ class MainActivity : AppCompatActivity() {
 
         accuterraMapView.onCreate(savedInstanceState)
         accuterraMapView.addListener(listener)
-        accuterraMapView.initialize(com.mapbox.mapboxsdk.maps.Style.OUTDOORS)
+        accuterraMapView.initialize(AccuTerraStyle.VECTOR)
     }
 
     private fun onMapViewInitialized(mapboxMap: MapboxMap) {
@@ -91,9 +94,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun addTrails() {
-        if (SdkManager.isTrailDbInitialized(this)) {
-            accuterraMapView.trailLayersManager.addStandardLayers()
-        }
+//        if (SdkManager.isTrailDbInitialized(this)) {
+        accuterraMapView.trailLayersManager.addStandardLayers()
+//        }
     }
 
     private fun addMapListeners() {
@@ -104,6 +107,51 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleMapClick(latLng: LatLng) {
+        var clickHandled = handlePOIClicked(latLng)
+
+        if (!clickHandled) {
+            clickHandled = handleTrailClicked(latLng)
+        }
+    }
+
+    /**@param latLng The gps coordinate [LatLng] of the map click
+     * @return whether the click is successfully handled by this function. True if POIs are detected at the location of the click, false if no POIs are detected.
+     * */
+    private fun handlePOIClicked(latLng: LatLng): Boolean {
+        val poiSearchResult = TrailPoisQueryBuilder(accuterraMapView.trailLayersManager)
+            .setCenter(latLng)
+            .setTolerance(5.0f)
+            .includeAllTrailLayers()
+            .create()
+            .execute()
+
+        return when (poiSearchResult.trailPois.count()) {
+            0 -> false
+            else -> {
+                val poiResult = poiSearchResult.trailPois.first()
+                val poiId = poiResult.poiIds.first()
+
+                lifecycleScope.launchWhenCreated {
+                    val trail =
+                        ServiceFactory
+                            .getTrailService(this@MainActivity)
+                            .getTrailById(poiResult.trailId)
+
+                    val poi =
+                        trail?.navigationInfo?.mapPoints?.first { mapPoint -> mapPoint.id == poiId }
+
+                    showPoiDialog(trail!!, poi!!)
+                }
+
+                true
+            }
+        }
+    }
+
+    /**@param latLng The gps coordinate [LatLng] of the map click
+     * @return whether the click is successfully handled by this function. True if Trails are detected at the location of the click, false if no Trails are detected.
+     * */
+    private fun handleTrailClicked(latLng: LatLng): Boolean {
         val searchResult = TrailsQueryBuilder(accuterraMapView.trailLayersManager)
             .setCenter(latLng) // the latitude/longitude clicked on map by user
             .setTolerance(5.0f) // 5 pixel tolerance on click
@@ -111,7 +159,7 @@ class MainActivity : AppCompatActivity() {
             .create()
             .execute()
 
-        when (searchResult.trailIds.count()) {
+        return when (searchResult.trailIds.count()) {
             1 -> {
                 val trailId = searchResult.trailIds.single()
                 accuterraMapView.trailLayersManager.highlightTrail(trailId)
@@ -122,11 +170,13 @@ class MainActivity : AppCompatActivity() {
                             ?: throw IllegalArgumentException("trailId $trailId not found in data set")
 
                     displayTrailPOIs(trail)
-                    showTrailDialog(trail)
                 }
+
+                true
             }
             else -> {
                 /* TODO: do something else when multiple trails are clicked */
+                false
             }
         }
     }
@@ -135,10 +185,21 @@ class MainActivity : AppCompatActivity() {
         accuterraMapView.trailLayersManager.showTrailPOIs(trail)
     }
 
-    private fun showTrailDialog(trail: Trail) {
+    private fun showPoiDialog(trail: Trail, poi: MapPoint) {
+        val alertTitle = trail.info.name + ": " + when {
+            !poi.name.isNullOrBlank() -> {
+                poi.name
+            }
+            poi.navigationOrder != null -> {
+                "Waypoint ${poi.navigationOrder}"
+            }
+            else -> "POI ${poi.id}"
+        }
+
         AlertDialog.Builder(this@MainActivity)
-            .setTitle(trail.info.name)
-            .setMessage(trail.info.highlights)
+            .setTitle(alertTitle)
+            .setMessage(poi.description)
+            .setNeutralButton("Ok") { _, _ ->  }
             .show()
     }
 }

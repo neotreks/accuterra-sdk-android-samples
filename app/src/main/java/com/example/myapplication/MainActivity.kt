@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var accuterraMapView: AccuTerraMapView
     private lateinit var mapboxMap: MapboxMap
+    private val mapStyle = AccuTerraStyle.VECTOR
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,13 +77,14 @@ class MainActivity : AppCompatActivity() {
 
         accuterraMapView.onCreate(savedInstanceState)
         accuterraMapView.addListener(listener)
-        accuterraMapView.initialize(AccuTerraStyle.VECTOR)
+        accuterraMapView.initialize(mapStyle)
     }
 
     private fun onMapViewInitialized(mapboxMap: MapboxMap) {
         this.mapboxMap = mapboxMap
 
         lifecycleScope.launchWhenCreated {
+            setMapStyle(mapStyle, this@MainActivity)
             moveMap()
             addTrails()
             addMapListeners()
@@ -94,9 +97,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun addTrails() {
-//        if (SdkManager.isTrailDbInitialized(this)) {
         accuterraMapView.trailLayersManager.addStandardLayers()
-//        }
     }
 
     private fun addMapListeners() {
@@ -104,6 +105,10 @@ class MainActivity : AppCompatActivity() {
             handleMapClick(latLng)
             true
         }
+    }
+
+    private fun setMapStyle(mapStyle: String, context: Context) {
+        accuterraMapView.setStyle(mapStyle, MyCustomStyleProvider(mapStyle, context))
     }
 
     private fun handleMapClick(latLng: LatLng) {

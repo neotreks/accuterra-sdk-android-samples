@@ -1,7 +1,11 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
+import android.text.format.Formatter
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -12,6 +16,7 @@ import com.neotreks.accuterra.mobile.sdk.*
 import com.neotreks.accuterra.mobile.sdk.map.AccuTerraMapView
 import com.neotreks.accuterra.mobile.sdk.map.AccuTerraStyle
 import com.neotreks.accuterra.mobile.sdk.map.TrackingOption
+import com.neotreks.accuterra.mobile.sdk.map.cache.*
 import com.neotreks.accuterra.mobile.sdk.map.query.TrailPoisQueryBuilder
 import com.neotreks.accuterra.mobile.sdk.map.query.TrailsQueryBuilder
 import com.neotreks.accuterra.mobile.sdk.model.Result
@@ -24,6 +29,21 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var accuterraMapView: AccuTerraMapView
     private lateinit var mapboxMap: MapboxMap
+
+    private var offlineMapService: OfflineMapService? = null
+    private var offlineMapServiceConnectionListener = object: OfflineMapServiceConnectionListener{
+        override fun onConnected(service: OfflineMapService) {
+            offlineMapService = service
+            checkOfflineMaps()
+        }
+
+        override fun onDisconnected() {
+        }
+
+    }
+
+    private var offlineMapServiceConnection = OfflineMapService.createServiceConnection(offlineMapServiceConnectionListener, null)
+
     private val mapStyle = AccuTerraStyle.VECTOR
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +56,13 @@ class MainActivity : AppCompatActivity() {
             if (initSdk().isSuccess) {
                 setupMap(savedInstanceState)
             }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Intent(this, OfflineMapService::class.java).also { intent ->
+            bindService(intent, offlineMapServiceConnection, Context.BIND_AUTO_CREATE)
         }
     }
 
@@ -88,6 +115,33 @@ class MainActivity : AppCompatActivity() {
             moveMap()
             addTrails()
             addMapListeners()
+        }
+    }
+
+    private fun checkOfflineMaps() {
+        val offlineCacheManager = offlineMapService?.offlineMapManager ?: return
+        lifecycleScope.launchWhenCreated {
+            when (offlineCacheManager.getOfflineMapStatus(OfflineMapType.OVERLAY)) {
+                OfflineMapStatus.NOT_CACHED, OfflineMapStatus.FAILED -> {
+                    val estimateBytes = offlineCacheManager.estimateOverlayCacheSize()
+                    val estimateText =
+                        Formatter.formatShortFileSize(this@MainActivity, estimateBytes)
+
+                    AlertDialog.Builder(this@MainActivity)
+                        .setTitle("Download")
+                        .setMessage("Would you like to download the overlay map cache? ($estimateText)")
+                        .setPositiveButton("YES") { _, _ ->
+                            lifecycleScope.launchWhenCreated {
+                                offlineCacheManager.downloadOfflineMap(OfflineMapType.OVERLAY)
+                            }
+                        }
+                        .setNegativeButton("No") { _, _ -> }
+                        .show()
+                }
+                else -> {
+                    // Already in progress or complete
+                }
+            }
         }
     }
 

@@ -5,15 +5,15 @@ import android.graphics.Color
 import androidx.core.content.ContextCompat
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory
 import com.mapbox.mapboxsdk.style.layers.PropertyValue
-import com.neotreks.accuterra.mobile.sdk.map.PoiDrawable
+import com.neotreks.accuterra.mobile.sdk.map.PoiDrawableBuilder
 import com.neotreks.accuterra.mobile.sdk.map.loader.IPoiDrawable
 import com.neotreks.accuterra.mobile.sdk.map.style.AccuterraStyleProvider
 import com.neotreks.accuterra.mobile.sdk.map.style.TrailLayerStyleType
 import com.neotreks.accuterra.mobile.sdk.map.style.TrailMarkerStyleType
 import com.neotreks.accuterra.mobile.sdk.map.style.TrailPoiStyleType
 
-class MyCustomStyleProvider(mapStyle: String, private val context: Context) :
-    AccuterraStyleProvider(mapStyle, context) {
+class MyCustomStyleProvider(private val context: Context) :
+    AccuterraStyleProvider(context) {
 
     override fun getTrailProperties(type: TrailLayerStyleType): Array<PropertyValue<out Any>> {
         return when (type) {
@@ -34,18 +34,23 @@ class MyCustomStyleProvider(mapStyle: String, private val context: Context) :
 
     override fun getPoiDrawable(type: TrailPoiStyleType): IPoiDrawable {
         return when (type) {
-            TrailPoiStyleType.TRAIL_HEAD -> PoiDrawable(
-                type.name,
-                context.getDrawable(R.drawable.ic_heart_teal_24dp)!!
-            )
-            TrailPoiStyleType.TRAIL_POI -> PoiDrawable(
-                type.name,
-                context.getDrawable(R.drawable.ic_poi_purple_24dp)!!
-            )
-            TrailPoiStyleType.SELECTED_TRAIL_POI -> PoiDrawable(
-                type.name,
-                context.getDrawable(R.drawable.ic_location_pin_blue_24dp)!!
-            )
+            TrailPoiStyleType.TRAIL_HEAD ->
+                PoiDrawableBuilder()
+                    .withName(type.name)
+                    .withDrawable(R.drawable.ic_heart_teal_24dp, context)
+                    .build()
+
+            TrailPoiStyleType.TRAIL_POI ->
+                PoiDrawableBuilder()
+                    .withName(type.name)
+                    .withDrawable(R.drawable.ic_poi_purple_24dp, context)
+                    .build()
+
+            TrailPoiStyleType.SELECTED_TRAIL_POI ->
+                PoiDrawableBuilder()
+                    .withName(type.name)
+                    .withDrawable(R.drawable.ic_location_pin_blue_24dp, context)
+                    .build()
         }
     }
 

@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setMapStyle(mapStyle: String, context: Context) {
-        accuterraMapView.setStyle(mapStyle, MyCustomStyleProvider(mapStyle, context))
+        accuterraMapView.setStyle(mapStyle, MyCustomStyleProvider(context))
     }
 
     private fun handleMapClick(latLng: LatLng) {

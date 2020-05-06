@@ -94,8 +94,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Mapbox.getInstance(this, "pk._")
         networkStateReceiver = NetworkStateReceiver(this)
+
+        Mapbox.getInstance(this, BuildConfig.MAPBOX_CLIENT_TOKEN)
 
         setContentView(R.layout.activity_main)
 
@@ -121,11 +122,11 @@ class MainActivity : AppCompatActivity() {
 
         val networkListener = object : NetworkStateReceiver.NetworkStateReceiverListener {
             override fun onNetworkAvailable() {
-                longToast(this@MainActivity, "network connected")
+                toast(this@MainActivity, "network connected")
             }
 
             override fun onNetworkUnavailable() {
-                longToast(this@MainActivity, "network disconnected")
+                toast(this@MainActivity, "network disconnected")
 
                 if (!offlineMapStyles.contains(mapStyles[mapStyleIndex])) {
                     // the current map style has not been cached locally, swap to a cached one
@@ -143,10 +144,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun initSdk(activity: Activity): Result<Boolean> {
-        val sdkConfig = SdkConfig(
-            clientToken = "*********************************",
-            wsUrl = "*********************************"
-        )
+        val sdkConfig = SdkConfig(BuildConfig.ACCUTERRA_CLIENT_TOKEN, BuildConfig.WS_BASE_URL)
 
         val optionalListener = object : SdkInitListener {
             override fun onProgressChanged(progress: Int) {
@@ -162,7 +160,7 @@ class MainActivity : AppCompatActivity() {
                     SdkInitState.WAITING_FOR_NETWORK,
                     SdkInitState.PAUSED -> alertSdkInitStateChanged(activity, state)
                     SdkInitState.COMPLETED -> {
-                        longToast(activity, "SDK initialization completed successfully")
+                        toast(activity, "SDK initialization completed successfully")
                         download_progress_bar.visibility = View.GONE
                     }
                     SdkInitState.CANCELED,
@@ -188,7 +186,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun longToast(activity: Activity, message: String) {
+    private fun toast(activity: Activity, message: String) {
         runOnUiThread {
             Toast.makeText(
                 activity,

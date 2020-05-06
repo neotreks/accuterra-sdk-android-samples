@@ -13,6 +13,11 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // tokens and keys, set in /settings/tokens.gradle
+        buildConfigField("String", "MAPBOX_CLIENT_TOKEN", mapbox_client_token)
+        buildConfigField("String", "ACCUTERRA_CLIENT_TOKEN", accuterra_client_token)
+        buildConfigField("String", "WS_BASE_URL", ws_base_url)
     }
     buildTypes {
         release {

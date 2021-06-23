@@ -1,38 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context="com.neotreks.accuterra.mobile.sdk.sampleapp.MainActivity">
 
-    <com.neotreks.accuterra.mobile.sdk.map.AccuTerraMapView
-        android:id="@+id/accuterra_map_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button_map_style_toggle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_layer_swap_black_24dp"
-        app:iconTint="#FFFFFFFF"
-        app:backgroundTint="@color/colorPrimary"
-        />
+    <!-- PROGRESS BAR -->
 
     <ProgressBar
-        android:id="@+id/download_progress_bar"
-        android:layout_width="match_parent"
+        android:id="@+id/activity_main_progress_bar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:progress="0"
-        android:visibility="gone"
         />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/activity_main_progress_bar_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/activity_main_progress_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        tools:text="..."
+        />
+
+    <!-- SAMPLE LIST -->
+
+    <LinearLayout
+        android:id="@+id/activity_main_example_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone" >
+
+        <!-- POI ICON -->
+
+        <Button
+            android:id="@+id/activity_main_sample_poi_icon"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="@string/activity_main_sample_poi_icon" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

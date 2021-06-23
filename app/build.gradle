@@ -1,23 +1,26 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
 
-apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
+    buildFeatures {
+        viewBinding true
+    }
     defaultConfig {
-        applicationId "com.example.myapplication"
+        applicationId "com.neotreks.accuterra.mobile.sdk.sampleapp"
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         // tokens and keys, set in /settings/tokens.gradle
         buildConfigField("String", "MAPBOX_CLIENT_TOKEN", mapbox_client_token)
-        buildConfigField("String", "ACCUTERRA_CLIENT_TOKEN", accuterra_client_token)
+        buildConfigField("String", "ACCUTERRA_CLIENT_ID", accuterra_client_id)
+        buildConfigField("String", "ACCUTERRA_CLIENT_SECRET", accuterra_client_secret)
         buildConfigField("String", "WS_BASE_URL", ws_base_url)
+        buildConfigField("String", "WS_AUTH_URL", ws_auth_url)
     }
     buildTypes {
         release {
@@ -34,16 +37,18 @@ android {
 dependencies {
 
     // AccuTerra SDK
-    implementation "com.accuterra:accuterra-android-sdk:0.5.2"
+    implementation "com.accuterra:accuterra-android-sdk:0.11.0"
 
     // coroutines + lifecycle
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
 
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation 'androidx.core:core-ktx:1.5.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+
+    implementation "com.google.android.material:material:1.3.0"
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+
 }

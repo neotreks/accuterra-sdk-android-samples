@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.neotreks.accuterra.mobile.sdk.sampleapp
 
 import android.content.BroadcastReceiver
 import android.content.Context

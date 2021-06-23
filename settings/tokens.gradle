@@ -1,10 +1,14 @@
 ext {
     // Readonly access to Maven repo via our `distribution site`
-    distribution_username = '"********"'
-    distribution_password = '"********"'
-    // Web Service URL and API Key
+    distribution_username = '********'
+    distribution_password = '********'
+    // URL to AccuTerra BE
     ws_base_url = '"********"'
-    accuterra_client_token = '"********"'
+    // URL and credentials for the authentication service
+    ws_auth_url = '"********"'
+    // AccuTerra Client ID an Secret
+    accuterra_client_id = '"********"'
+    accuterra_client_secret = '"********"'
     // MapBox
     mapbox_client_token = '"********"'
 }

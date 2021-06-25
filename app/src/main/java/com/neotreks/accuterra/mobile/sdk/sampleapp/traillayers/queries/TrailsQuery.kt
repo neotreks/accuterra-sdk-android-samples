@@ -1,10 +1,10 @@
-package com.neotreks.accuterra.mobile.sdk.sampleapp.queries
+package com.neotreks.accuterra.mobile.sdk.sampleapp.traillayers.queries
 
 import android.graphics.RectF
 import androidx.annotation.UiThread
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapboxMap
-import com.neotreks.accuterra.mobile.sdk.sampleapp.layers.TrailLayerType
+import com.neotreks.accuterra.mobile.sdk.sampleapp.traillayers.layers.TrailLayerType
 
 /**
  * Represents a Trail Map query.

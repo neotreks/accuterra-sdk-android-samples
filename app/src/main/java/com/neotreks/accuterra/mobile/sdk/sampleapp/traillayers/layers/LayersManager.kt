@@ -1,4 +1,4 @@
-package com.neotreks.accuterra.mobile.sdk.sampleapp.layers
+package com.neotreks.accuterra.mobile.sdk.sampleapp.traillayers.layers
 
 import android.content.Context
 import androidx.lifecycle.LifecycleCoroutineScope

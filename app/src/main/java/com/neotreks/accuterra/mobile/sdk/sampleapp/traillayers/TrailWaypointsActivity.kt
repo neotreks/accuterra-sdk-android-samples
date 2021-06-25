@@ -1,31 +1,19 @@
-package com.neotreks.accuterra.mobile.sdk.sampleapp
+package com.neotreks.accuterra.mobile.sdk.sampleapp.traillayers
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import androidx.annotation.UiThread
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.mapbox.mapboxsdk.geometry.LatLng
-import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.neotreks.accuterra.mobile.sdk.ServiceFactory
-import com.neotreks.accuterra.mobile.sdk.map.AccuTerraMapView
-import com.neotreks.accuterra.mobile.sdk.map.AccuTerraStyle
-import com.neotreks.accuterra.mobile.sdk.map.TrackingOption
 import com.neotreks.accuterra.mobile.sdk.model.OrderByBuilder
 import com.neotreks.accuterra.mobile.sdk.model.OrderByProperty
 import com.neotreks.accuterra.mobile.sdk.model.QueryLimitBuilder
 import com.neotreks.accuterra.mobile.sdk.model.SortOrder
-import com.neotreks.accuterra.mobile.sdk.sampleapp.databinding.ActivityTrailHeadsBinding
+import com.neotreks.accuterra.mobile.sdk.sampleapp.MapActivity
 import com.neotreks.accuterra.mobile.sdk.sampleapp.databinding.ActivityTrailWaypointsBinding
-import com.neotreks.accuterra.mobile.sdk.sampleapp.layers.TrailLayerType
-import com.neotreks.accuterra.mobile.sdk.sampleapp.layers.TrailLayersManager
-import com.neotreks.accuterra.mobile.sdk.sampleapp.queries.TrailsQuery
-import com.neotreks.accuterra.mobile.sdk.sampleapp.queries.WaypointsQuery
+import com.neotreks.accuterra.mobile.sdk.sampleapp.traillayers.layers.TrailLayersManager
+import com.neotreks.accuterra.mobile.sdk.sampleapp.traillayers.queries.WaypointsQuery
 import com.neotreks.accuterra.mobile.sdk.trail.model.*
-import com.neotreks.accuterra.mobile.sdk.util.DelayedLastCallExecutor
-import java.lang.ref.WeakReference
 
 class TrailWaypointsActivity : MapActivity() {
 

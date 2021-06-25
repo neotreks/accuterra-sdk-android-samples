@@ -1,8 +1,7 @@
-package com.neotreks.accuterra.mobile.sdk.sampleapp
+package com.neotreks.accuterra.mobile.sdk.sampleapp.traillayers
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.neotreks.accuterra.mobile.sdk.ServiceFactory
@@ -10,12 +9,11 @@ import com.neotreks.accuterra.mobile.sdk.model.OrderByBuilder
 import com.neotreks.accuterra.mobile.sdk.model.OrderByProperty
 import com.neotreks.accuterra.mobile.sdk.model.QueryLimitBuilder
 import com.neotreks.accuterra.mobile.sdk.model.SortOrder
+import com.neotreks.accuterra.mobile.sdk.sampleapp.MapActivity
 import com.neotreks.accuterra.mobile.sdk.sampleapp.databinding.ActivityTrailHeadsBinding
-import com.neotreks.accuterra.mobile.sdk.sampleapp.layers.TrailLayerType
-import com.neotreks.accuterra.mobile.sdk.sampleapp.layers.TrailLayersManager
-import com.neotreks.accuterra.mobile.sdk.sampleapp.queries.TrailsQuery
-import com.neotreks.accuterra.mobile.sdk.trail.extension.extend
-import com.neotreks.accuterra.mobile.sdk.trail.extension.toLatLngBounds
+import com.neotreks.accuterra.mobile.sdk.sampleapp.traillayers.layers.TrailLayerType
+import com.neotreks.accuterra.mobile.sdk.sampleapp.traillayers.layers.TrailLayersManager
+import com.neotreks.accuterra.mobile.sdk.sampleapp.traillayers.queries.TrailsQuery
 import com.neotreks.accuterra.mobile.sdk.trail.model.*
 import com.neotreks.accuterra.mobile.sdk.util.DelayedLastCallExecutor
 

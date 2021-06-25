@@ -1,4 +1,4 @@
-package com.neotreks.accuterra.mobile.sdk.sampleapp.layers
+package com.neotreks.accuterra.mobile.sdk.sampleapp.traillayers.layers
 
 import androidx.annotation.UiThread
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -14,15 +14,9 @@ import com.mapbox.mapboxsdk.style.layers.PropertyFactory
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer
 import com.mapbox.mapboxsdk.style.sources.GeoJsonOptions
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
-import com.neotreks.accuterra.mobile.sdk.ServiceFactory
 import com.neotreks.accuterra.mobile.sdk.map.AccuTerraMapView
 import com.neotreks.accuterra.mobile.sdk.map.TrackingOption
-import com.neotreks.accuterra.mobile.sdk.sampleapp.R
-import com.neotreks.accuterra.mobile.sdk.trail.model.TechnicalRating
-import com.neotreks.accuterra.mobile.sdk.trail.model.TrailBasicInfo
 import com.neotreks.accuterra.mobile.sdk.trail.model.TrailDriveWaypoint
-import com.neotreks.accuterra.mobile.sdk.trail.model.TrailMarker
-import com.neotreks.accuterra.mobile.sdk.trail.service.TrailLoadFilter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

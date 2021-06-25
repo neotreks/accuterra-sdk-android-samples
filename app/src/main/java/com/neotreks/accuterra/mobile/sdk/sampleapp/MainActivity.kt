@@ -15,6 +15,8 @@ import com.neotreks.accuterra.mobile.sdk.cache.model.OfflineCacheConfig
 import com.neotreks.accuterra.mobile.sdk.map.cache.*
 import com.neotreks.accuterra.mobile.sdk.model.Result
 import com.neotreks.accuterra.mobile.sdk.sampleapp.databinding.ActivityMainBinding
+import com.neotreks.accuterra.mobile.sdk.sampleapp.traillayers.TrailHeadsActivity
+import com.neotreks.accuterra.mobile.sdk.sampleapp.traillayers.TrailWaypointsActivity
 import com.neotreks.accuterra.mobile.sdk.security.model.SdkEndpointConfig
 import java.util.*
 

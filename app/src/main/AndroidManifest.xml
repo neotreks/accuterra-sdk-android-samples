@@ -19,11 +19,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TrailHeadsActivity"
+            android:name=".traillayers.TrailHeadsActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".TrailWaypointsActivity"
+            android:name=".traillayers.TrailWaypointsActivity"
             android:screenOrientation="portrait">
         </activity>
 

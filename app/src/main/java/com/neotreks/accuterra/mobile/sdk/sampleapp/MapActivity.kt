@@ -10,22 +10,12 @@ import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
-import com.neotreks.accuterra.mobile.sdk.ServiceFactory
 import com.neotreks.accuterra.mobile.sdk.map.AccuTerraMapView
 import com.neotreks.accuterra.mobile.sdk.map.AccuTerraStyle
 import com.neotreks.accuterra.mobile.sdk.map.TrackingOption
-import com.neotreks.accuterra.mobile.sdk.model.QueryLimitBuilder
-import com.neotreks.accuterra.mobile.sdk.sampleapp.databinding.ActivityTrailHeadsBinding
-import com.neotreks.accuterra.mobile.sdk.sampleapp.databinding.ActivityTrailWaypointsBinding
-import com.neotreks.accuterra.mobile.sdk.sampleapp.layers.TrailLayerType
-import com.neotreks.accuterra.mobile.sdk.sampleapp.layers.TrailLayersManager
-import com.neotreks.accuterra.mobile.sdk.sampleapp.queries.TrailsQuery
 import com.neotreks.accuterra.mobile.sdk.trail.extension.extend
 import com.neotreks.accuterra.mobile.sdk.trail.extension.toLatLngBounds
 import com.neotreks.accuterra.mobile.sdk.trail.model.MapBounds
-import com.neotreks.accuterra.mobile.sdk.trail.model.TrailBasicInfo
-import com.neotreks.accuterra.mobile.sdk.trail.model.TrailMapBoundsSearchCriteria
-import com.neotreks.accuterra.mobile.sdk.util.DelayedLastCallExecutor
 import java.lang.ref.WeakReference
 
 abstract class MapActivity : AppCompatActivity() {

@@ -48,13 +48,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:visibility="gone" >
 
-        <!-- POI ICON -->
+        <!-- Trail Heads Layers -->
 
         <Button
-            android:id="@+id/activity_main_sample_poi_icon"
+            android:id="@+id/activity_main_sample_trail_heads"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:text="@string/activity_main_sample_poi_icon" />
+            android:text="@string/activity_main_sample_trail_heads" />
+
+        <!-- Trail Waypoints Layer -->
+
+        <Button
+            android:id="@+id/activity_main_sample_trail_waypoints"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="@string/activity_main_sample_trail_waypoints" />
 
     </LinearLayout>
 

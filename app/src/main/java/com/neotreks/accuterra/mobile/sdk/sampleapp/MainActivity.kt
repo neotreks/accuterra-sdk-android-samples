@@ -1,6 +1,7 @@
 package com.neotreks.accuterra.mobile.sdk.sampleapp
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -14,6 +15,8 @@ import com.neotreks.accuterra.mobile.sdk.cache.model.OfflineCacheConfig
 import com.neotreks.accuterra.mobile.sdk.map.cache.*
 import com.neotreks.accuterra.mobile.sdk.model.Result
 import com.neotreks.accuterra.mobile.sdk.sampleapp.databinding.ActivityMainBinding
+import com.neotreks.accuterra.mobile.sdk.sampleapp.traillayers.TrailHeadsActivity
+import com.neotreks.accuterra.mobile.sdk.sampleapp.traillayers.TrailWaypointsActivity
 import com.neotreks.accuterra.mobile.sdk.security.model.SdkEndpointConfig
 import java.util.*
 
@@ -60,7 +63,8 @@ class MainActivity : AppCompatActivity() {
         // Show the list
         binding.activityMainExampleList.visibility = View.VISIBLE
         // Setup Listeners
-        binding.activityMainSamplePoiIcon.setOnClickListener { onSamplePoiIcons() }
+        binding.activityMainSampleTrailHeads.setOnClickListener { onTrailHeads() }
+        binding.activityMainSampleTrailWaypoints.setOnClickListener { onTrailWaypoints() }
     }
 
     private suspend fun initSdk(activity: Activity): Result<Boolean> {
@@ -174,8 +178,12 @@ class MainActivity : AppCompatActivity() {
     /*    BUTTON LISTENERS   */
     /* * * * * * * * * * * * */
 
-    private fun onSamplePoiIcons() {
-        Log.i(TAG, "On POI Icons")
+    private fun onTrailHeads() {
+        startActivity(Intent(this, TrailHeadsActivity::class.java))
+    }
+
+    private fun onTrailWaypoints() {
+        startActivity(Intent(this, TrailWaypointsActivity::class.java))
     }
 
 }

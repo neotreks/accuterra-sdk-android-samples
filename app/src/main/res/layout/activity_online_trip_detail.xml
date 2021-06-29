@@ -18,23 +18,23 @@
         style="@style/TextAppearance.MaterialComponents.Headline5"
         tools:text = "Trip Name" />
 
-    <!-- TAGS -->
+    <!-- Description -->
     <TextView
-        android:id="@+id/activity_online_trip_detail_trip_tags"
+        android:id="@+id/activity_online_trip_detail_trip_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/activity_online_trip_detail_trip_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="12dp"
-        tools:text = "Tags...." />
+        tools:text = "Description...." />
 
     <!-- TRIP MEDIA LABEL -->
     <TextView
         android:id="@+id/activity_online_trip_detail_trip_media_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/activity_online_trip_detail_trip_tags"
+        app:layout_constraintTop_toBottomOf="@id/activity_online_trip_detail_trip_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="12dp"

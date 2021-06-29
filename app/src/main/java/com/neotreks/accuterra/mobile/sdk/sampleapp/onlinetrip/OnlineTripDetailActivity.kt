@@ -131,7 +131,7 @@ class OnlineTripDetailActivity : BaseActivity() {
             // Display Trip Name
             binding.activityOnlineTripDetailTripName.text = trip.info.name
             // Display Trip Tags
-            binding.activityOnlineTripDetailTripTags.text = "Tags: ${trip.info.tags.joinToString { it.name }}"
+            binding.activityOnlineTripDetailTripDescription.text = trip.info.description
             // Display TRIP root media
             val mediaOfTheTrip = trip.media // Trips might not have media set to Trip.media property
             val tripMediaAdapter = OnlineTripMediaAdapter(this, mediaOfTheTrip, lifecycleScope)

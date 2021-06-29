@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.UiThread
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.geometry.LatLng
@@ -18,7 +17,7 @@ import com.neotreks.accuterra.mobile.sdk.trail.extension.toLatLngBounds
 import com.neotreks.accuterra.mobile.sdk.trail.model.MapBounds
 import java.lang.ref.WeakReference
 
-abstract class MapActivity : AppCompatActivity() {
+abstract class MapActivity : BaseActivity() {
 
     /* * * * * * * * * * * * */
     /*       COMPANION       */
@@ -44,17 +43,11 @@ abstract class MapActivity : AppCompatActivity() {
         accuTerraMapViewListener = AccuTerraMapViewListener(this)
         mapViewLoadingFailListener = MapLoadingFailListener(this)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        setupActionBar()
 
         lifecycleScope.launchWhenCreated {
             setupMap(savedInstanceState)
         }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 
     override fun onStart() {

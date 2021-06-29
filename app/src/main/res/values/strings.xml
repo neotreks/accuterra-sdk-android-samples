@@ -5,6 +5,7 @@
 
     <string name="activity_main_sample_trail_heads">Trail Heads</string>
     <string name="activity_main_sample_trail_waypoints">Trail Waypoints</string>
+    <string name="activity_main_sample_trip_list">Trip List</string>
 
 
 </resources>

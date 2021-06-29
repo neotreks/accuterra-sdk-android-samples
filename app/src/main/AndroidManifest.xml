@@ -26,6 +26,10 @@
             android:name=".traillayers.TrailWaypointsActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".onlinetrip.OnlineTripListActivity"
+            android:screenOrientation="portrait">
+        </activity>
 
         <service
             android:name="com.neotreks.accuterra.mobile.sdk.map.cache.OfflineMapService"

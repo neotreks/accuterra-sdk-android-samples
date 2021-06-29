@@ -8,8 +8,14 @@ import com.neotreks.accuterra.mobile.sdk.IIdentityProvider
  */
 class SampleIdentityProvider : IIdentityProvider {
 
+    /**
+     * Change to your preferred user ID string.
+     *
+     * But don't forget that this setting affects what data will be returned
+     * e.g. when fetching the list of user trips.
+     */
     override suspend fun getUserId(context: Context): String {
-        return "sample app user"
+        return "test driver uuid"
     }
 
 }

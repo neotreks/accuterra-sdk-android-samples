@@ -18,6 +18,7 @@ import com.neotreks.accuterra.mobile.sdk.sampleapp.databinding.ActivityMainBindi
 import com.neotreks.accuterra.mobile.sdk.sampleapp.traillayers.TrailHeadsActivity
 import com.neotreks.accuterra.mobile.sdk.sampleapp.traillayers.TrailWaypointsActivity
 import com.neotreks.accuterra.mobile.sdk.sampleapp.onlinetrip.OnlineTripListActivity
+import com.neotreks.accuterra.mobile.sdk.sampleapp.onlinetrip.OnlineTripDetailActivity
 import com.neotreks.accuterra.mobile.sdk.security.model.SdkEndpointConfig
 import java.util.*
 
@@ -66,7 +67,8 @@ class MainActivity : AppCompatActivity() {
         // Setup Listeners
         binding.activityMainSampleTrailHeads.setOnClickListener { onTrailHeads() }
         binding.activityMainSampleTrailWaypoints.setOnClickListener { onTrailWaypoints() }
-        binding.activityMainSampleTripList.setOnClickListener { onTripList() }
+        binding.activityMainSampleOnlineTripList.setOnClickListener { onOnlineTripList() }
+        binding.activityMainSampleOnlineTripDetail.setOnClickListener { onOnlineTripDetail() }
     }
 
     private suspend fun initSdk(activity: Activity): Result<Boolean> {
@@ -188,8 +190,12 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, TrailWaypointsActivity::class.java))
     }
 
-    private fun onTripList() {
+    private fun onOnlineTripList() {
         startActivity(Intent(this, OnlineTripListActivity::class.java))
+    }
+
+    private fun onOnlineTripDetail() {
+        startActivity(Intent(this, OnlineTripDetailActivity::class.java))
     }
 
 }

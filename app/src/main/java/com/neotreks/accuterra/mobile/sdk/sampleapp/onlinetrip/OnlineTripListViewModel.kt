@@ -2,6 +2,7 @@ package com.neotreks.accuterra.mobile.sdk.sampleapp.onlinetrip
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.neotreks.accuterra.mobile.sdk.ServiceFactory
@@ -38,7 +39,6 @@ class OnlineTripListViewModel: ViewModel() {
     suspend fun loadUserTrips(context: Context) {
         // Init the trip service
         val tripService = ServiceFactory.getTripService(context)
-        // Create user trip search criteria
 
         // Prepare search criteria
         val searchCriteria = GetMyActivityFeedCriteria(
@@ -65,9 +65,10 @@ class OnlineTripListViewModel: ViewModel() {
             Log.i(TAG, "Total number of user trips: $totalNumberOfTrips")
             feedEntries.value = resultData.entries
         } else {
-            // Query has failed
-            Log.e(TAG, "Error while listing user trips: ${entriesQueryResult.buildErrorMessage()}",
-                entriesQueryResult.error)
+            // Query has failed - log and display the error message
+            val message = "Error while listing user trips: ${entriesQueryResult.buildErrorMessage()}"
+            Log.e(TAG, message, entriesQueryResult.error)
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
         }
 
     }

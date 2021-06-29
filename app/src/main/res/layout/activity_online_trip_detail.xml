@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".onlinetrip.OnlineTripDetailActivity">
+
+    <!-- NAME -->
+    <TextView
+        android:id="@+id/activity_online_trip_detail_trip_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="12dp"
+        style="@style/TextAppearance.MaterialComponents.Headline5"
+        tools:text = "Trip Name" />
+
+    <!-- TAGS -->
+    <TextView
+        android:id="@+id/activity_online_trip_detail_trip_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/activity_online_trip_detail_trip_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="12dp"
+        tools:text = "Tags...." />
+
+    <!-- TRIP MEDIA LABEL -->
+    <TextView
+        android:id="@+id/activity_online_trip_detail_trip_media_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/activity_online_trip_detail_trip_tags"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="12dp"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:text="Media of the Trip" />
+
+    <!-- TRIP MEDIA LIST -->
+    <ListView
+        android:id="@+id/activity_online_trip_detail_trip_media_list"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/activity_online_trip_detail_trip_media_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <!-- POI MEDIA LABEL -->
+    <TextView
+        android:id="@+id/activity_online_trip_detail_poi_media_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/activity_online_trip_detail_trip_media_list"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="12dp"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:text="Media of Trip POIs" />
+
+    <!-- POI MEDIA LIST -->
+    <ListView
+        android:id="@+id/activity_online_trip_detail_poi_media_list"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/activity_online_trip_detail_poi_media_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

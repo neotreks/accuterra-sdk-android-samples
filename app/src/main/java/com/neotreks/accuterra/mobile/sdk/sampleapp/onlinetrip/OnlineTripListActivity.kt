@@ -2,12 +2,17 @@ package com.neotreks.accuterra.mobile.sdk.sampleapp.onlinetrip
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.neotreks.accuterra.mobile.sdk.sampleapp.BaseActivity
 import com.neotreks.accuterra.mobile.sdk.sampleapp.common.DialogUtil
+import com.neotreks.accuterra.mobile.sdk.sampleapp.common.OnListItemClickedListener
 import com.neotreks.accuterra.mobile.sdk.sampleapp.databinding.ActivityOnlineTripListBinding
 import com.neotreks.accuterra.mobile.sdk.sampleapp.onlinetrip.components.OnlineTripListAdapter
+import com.neotreks.accuterra.mobile.sdk.ugc.model.ActivityFeedEntry
+import com.neotreks.accuterra.mobile.sdk.ugc.model.TripBasicInfoEntry
 import com.neotreks.accuterra.mobile.sdk.ugc.model.TripProcessingStatus
 
 /**
@@ -42,7 +47,11 @@ class OnlineTripListActivity : BaseActivity() {
 
         setupActionBar()
 
+        // Load trip list from the BE
         loadTrips()
+
+        // Add livedata observer
+        setupObserver()
     }
 
     private fun loadTrips() {
@@ -60,7 +69,9 @@ class OnlineTripListActivity : BaseActivity() {
             loadDialog.dismiss()
         }
 
-        // Add livedata observer
+    }
+
+    private fun setupObserver() {
         viewModel.feedEntries.observe(this) { activityEntries ->
             // We might consider filtering trips by status - it depends if we want to display
             // also trips which were uploaded to the server but not fully processed yet.
@@ -73,7 +84,28 @@ class OnlineTripListActivity : BaseActivity() {
             }
             // Crate the adapter
             val adapter = OnlineTripListAdapter(this, displayedItems, lifecycleScope)
+            adapter.setOnListItemClickedListener(object: OnListItemClickedListener<ActivityFeedEntry> {
+                override fun onListItemClicked(item: ActivityFeedEntry, view: View) {
+                    displayTripDetail(item.trip)
+                }
+            })
             binding.activityTripListListView.adapter = adapter
+        }
+    }
+
+    /**
+     * Opens the [OnlineTripDetailActivity] if trip detail can be displayed
+     */
+    private fun displayTripDetail(trip: TripBasicInfoEntry) {
+        if (trip.processingStatus == TripProcessingStatus.PROCESSED) {
+            // We can get detail only for Processed Trips
+            val intent = OnlineTripDetailActivity.createNavigateToIntent(this, trip.uuid)
+            startActivity(intent)
+        } else {
+            Toast.makeText(this,
+                "We shall display details only for processed trips",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 

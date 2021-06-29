@@ -20,17 +20,21 @@
         </activity>
         <activity
             android:name=".traillayers.TrailHeadsActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".traillayers.TrailWaypointsActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".onlinetrip.OnlineTripListActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".onlinetrip.OnlineTripDetailActivity"
+            android:screenOrientation="portrait"></activity>
 
         <service
             android:name="com.neotreks.accuterra.mobile.sdk.map.cache.OfflineMapService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>

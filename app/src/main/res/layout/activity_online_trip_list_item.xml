@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- NAME -->
+    <TextView
+        android:id="@+id/activity_online_trip_list_item_trip_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        tools:text = "Trip Name"
+        android:layout_margin="12dp" />
+
+    <!-- DESCRIPTION -->
+    <TextView
+        android:id="@+id/activity_online_trip_list_item_trip_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/activity_online_trip_list_item_trip_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text = "Trip Description"
+        android:layout_margin="12dp" />
+
+    <!-- STATUS -->
+    <TextView
+        android:id="@+id/activity_online_trip_list_item_trip_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/activity_online_trip_list_item_trip_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text = "Status"
+        android:layout_margin="12dp" />
+
+    <!-- TRIP MAP IMAGE -->
+    <ImageView
+        android:id="@+id/activity_online_trip_list_item_map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/activity_online_trip_list_item_trip_status"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:minHeight="50dp"
+        android:layout_marginTop="12dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
